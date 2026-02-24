@@ -189,8 +189,7 @@ export default function Home() {
 }
 
 function Icon({ src, alt }: { src: string; alt: string }) {
-  const base = typeof window !== "undefined" && window.location.hostname.includes("github.io") ? "/cloud-control-room-aws-demo" : "";
-  return <img src={`${base}${src}`} alt={alt} width={22} height={22} className="h-[22px] w-[22px]" />;
+  return <img src={src} alt={alt} width={22} height={22} className="h-[22px] w-[22px]" />;
 }
 
 function ArchitectureFlow({ model }: { model: { ec2Count: number; podCount: number; rdsReaders: number; trafficIntensity: number; requestFlow: number; failover: boolean } }) {
@@ -204,11 +203,11 @@ function ArchitectureFlow({ model }: { model: { ec2Count: number; podCount: numb
       </div>
 
       <div className="grid grid-cols-5 gap-2">
-        <ServiceNode icon="/aws-icons/route53.svg" label="Route 53" sub="Ingress" />
-        <ServiceNode icon="/aws-icons/elb.svg" label="ALB" sub="Public edge" />
-        <ServiceNode icon="/aws-icons/eks.svg" label="EKS" sub={`${model.podCount} pods`} />
-        <ServiceNode icon="/aws-icons/asg.svg" label="EC2 ASG" sub={`${model.ec2Count} instances`} />
-        <ServiceNode icon="/aws-icons/rds.svg" label="RDS" sub={`1 writer + ${model.rdsReaders} readers`} />
+        <ServiceNode icon="aws-icons/route53.svg" label="Route 53" sub="Ingress" />
+        <ServiceNode icon="aws-icons/elb.svg" label="ALB" sub="Public edge" />
+        <ServiceNode icon="aws-icons/eks.svg" label="EKS" sub={`${model.podCount} pods`} />
+        <ServiceNode icon="aws-icons/asg.svg" label="EC2 ASG" sub={`${model.ec2Count} instances`} />
+        <ServiceNode icon="aws-icons/rds.svg" label="RDS" sub={`1 writer + ${model.rdsReaders} readers`} />
       </div>
 
       <div className="relative mt-3 h-4">
@@ -261,13 +260,13 @@ function RegionCard({ name, active, impaired }: { name: string; active: boolean;
       </div>
 
       <div className="space-y-2 text-xs text-slate-300">
-        <div className="flex items-center gap-2"><Icon src="/aws-icons/route53.svg" alt="Route53" /> Route 53 routing</div>
-        <div className="flex items-center gap-2"><Icon src="/aws-icons/elb.svg" alt="Elastic Load Balancing" /> Elastic Load Balancer</div>
-        <div className="flex items-center gap-2"><Icon src="/aws-icons/eks.svg" alt="EKS" /> EKS service mesh</div>
-        <div className="flex items-center gap-2"><Icon src="/aws-icons/asg.svg" alt="Auto Scaling" /> Auto Scaling workers</div>
-        <div className="flex items-center gap-2"><Icon src="/aws-icons/rds.svg" alt="RDS" /> Amazon RDS (Multi-AZ)</div>
-        <div className="flex items-center gap-2"><Icon src="/aws-icons/s3.svg" alt="S3" /> S3 object store</div>
-        <div className="flex items-center gap-2"><Icon src="/aws-icons/cloudwatch.svg" alt="CloudWatch" /> CloudWatch alarms</div>
+        <div className="flex items-center gap-2"><Icon src="aws-icons/route53.svg" alt="Route53" /> Route 53 routing</div>
+        <div className="flex items-center gap-2"><Icon src="aws-icons/elb.svg" alt="Elastic Load Balancing" /> Elastic Load Balancer</div>
+        <div className="flex items-center gap-2"><Icon src="aws-icons/eks.svg" alt="EKS" /> EKS service mesh</div>
+        <div className="flex items-center gap-2"><Icon src="aws-icons/asg.svg" alt="Auto Scaling" /> Auto Scaling workers</div>
+        <div className="flex items-center gap-2"><Icon src="aws-icons/rds.svg" alt="RDS" /> Amazon RDS (Multi-AZ)</div>
+        <div className="flex items-center gap-2"><Icon src="aws-icons/s3.svg" alt="S3" /> S3 object store</div>
+        <div className="flex items-center gap-2"><Icon src="aws-icons/cloudwatch.svg" alt="CloudWatch" /> CloudWatch alarms</div>
       </div>
     </div>
   );
