@@ -24,3 +24,21 @@ body {
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
 }
+
+.traffic-dot {
+  animation-name: traffic-flow;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+}
+
+@keyframes traffic-flow {
+  from {
+    transform: translate(0, -50%);
+    opacity: 0.35;
+  }
+  20% { opacity: 1; }
+  to {
+    transform: translate(var(--travel), -50%);
+    opacity: 0.2;
+  }
+}

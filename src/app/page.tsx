@@ -51,14 +51,21 @@ export default function Home() {
       )
     );
 
+    const ec2Count = Math.max(2, Math.round(podCount / 2));
+    const rdsReaders = Math.max(1, Math.round(users / 2800) + (resilience === "maximum" ? 1 : 0));
+    const trafficIntensity = Math.min(100, Math.max(15, Math.round((users / 12000) * 100)));
+
     return {
       podCount,
+      ec2Count,
+      rdsReaders,
       latency,
       monthlyCost,
       availability,
       activeRegion,
       failover,
       degraded,
+      trafficIntensity,
       requestFlow: Math.round(users * (failure === "none" ? 1 : 0.76)),
     };
   }, [users, dataTB, resilience, failure]);
@@ -162,31 +169,11 @@ export default function Home() {
                 </span>
               </div>
 
+              <ArchitectureFlow model={model} />
+
               <div className="grid gap-4 md:grid-cols-2">
                 <RegionCard name="us-east-1" active={model.activeRegion === "primary"} impaired={failure === "region"} />
                 <RegionCard name="us-west-2" active={model.activeRegion === "secondary"} impaired={false} />
-              </div>
-
-              <div className="mt-4 rounded-xl border border-slate-800 bg-slate-950/70 p-4">
-                <div className="mb-2 flex items-center justify-between text-xs text-slate-400">
-                  <span>Request flow through ALB → EKS pods</span>
-                  <span>{model.requestFlow.toLocaleString()} req/min</span>
-                </div>
-                <div className="h-2 overflow-hidden rounded-full bg-slate-800">
-                  <div
-                    className={`h-full rounded-full transition-all duration-500 ${model.failover ? "bg-amber-400" : "bg-cyan-400"}`}
-                    style={{ width: `${Math.min(100, Math.round((users / 12000) * 100))}%` }}
-                  />
-                </div>
-                <div className="mt-4 flex flex-wrap gap-2">
-                  {Array.from({ length: model.podCount }).map((_, i) => (
-                    <span
-                      key={i}
-                      className={`h-3 w-3 rounded-full transition-all ${model.degraded && i % 5 === 0 ? "bg-rose-400/50" : "bg-cyan-300 animate-pulse"}`}
-                      style={{ animationDelay: `${i * 120}ms` }}
-                    />
-                  ))}
-                </div>
               </div>
             </section>
 
@@ -204,6 +191,61 @@ export default function Home() {
 
 function Icon({ src, alt }: { src: string; alt: string }) {
   return <Image src={src} alt={alt} width={22} height={22} className="h-[22px] w-[22px]" />;
+}
+
+function ArchitectureFlow({ model }: { model: { ec2Count: number; podCount: number; rdsReaders: number; trafficIntensity: number; requestFlow: number; failover: boolean } }) {
+  const lineTone = model.failover ? "from-amber-400/70 to-amber-300/20" : "from-cyan-400/70 to-cyan-300/20";
+
+  return (
+    <div className="rounded-xl border border-slate-800 bg-slate-950/70 p-4">
+      <div className="mb-2 flex items-center justify-between text-xs text-slate-400">
+        <span>Live service graph</span>
+        <span>{model.requestFlow.toLocaleString()} req/min</span>
+      </div>
+
+      <div className="grid gap-2 sm:grid-cols-5">
+        <ServiceNode icon="/aws-icons/route53.svg" label="Route 53" sub="Ingress" />
+        <ServiceNode icon="/aws-icons/elb.svg" label="ALB" sub="Public edge" />
+        <ServiceNode icon="/aws-icons/eks.svg" label="EKS" sub={`${model.podCount} pods`} />
+        <ServiceNode icon="/aws-icons/asg.svg" label="EC2 ASG" sub={`${model.ec2Count} instances`} />
+        <ServiceNode icon="/aws-icons/rds.svg" label="RDS" sub={`1 writer + ${model.rdsReaders} readers`} />
+      </div>
+
+      <div className="relative mt-3 hidden h-4 sm:block">
+        {[0, 1, 2, 3].map((i) => (
+          <div key={i} className={`absolute top-1/2 h-[2px] -translate-y-1/2 bg-gradient-to-r ${lineTone}`} style={{ left: `${i * 25 + 7}%`, width: "11%" }} />
+        ))}
+        {[0, 1, 2, 3].map((i) => (
+          <TrafficDot key={`d-${i}`} delay={i * 0.45} duration={Math.max(1.4, 3.2 - model.trafficIntensity / 45)} left={`${i * 25 + 7}%`} width="11%" />
+        ))}
+      </div>
+
+      <div className="mt-3 rounded-lg border border-slate-800 p-3 text-xs text-slate-300">
+        Traffic intensity: <span className="text-cyan-300">{model.trafficIntensity}%</span> · Auto-scale: <span className="text-cyan-300">+{model.ec2Count} EC2</span> · DB split: <span className="text-cyan-300">writer/readers visible</span>
+      </div>
+    </div>
+  );
+}
+
+function ServiceNode({ icon, label, sub }: { icon: string; label: string; sub: string }) {
+  return (
+    <div className="rounded-lg border border-slate-700 bg-slate-900 p-2">
+      <div className="flex items-center gap-2">
+        <Icon src={icon} alt={label} />
+        <p className="text-xs font-medium text-slate-200">{label}</p>
+      </div>
+      <p className="mt-1 text-[11px] text-slate-400">{sub}</p>
+    </div>
+  );
+}
+
+function TrafficDot({ delay, duration, left, width }: { delay: number; duration: number; left: string; width: string }) {
+  return (
+    <span
+      className="traffic-dot absolute top-1/2 z-10 h-2 w-2 -translate-y-1/2 rounded-full bg-cyan-300"
+      style={{ left, ['--travel' as string]: width, animationDuration: `${duration}s`, animationDelay: `${delay}s` }}
+    />
+  );
 }
 
 function RegionCard({ name, active, impaired }: { name: string; active: boolean; impaired: boolean }) {
