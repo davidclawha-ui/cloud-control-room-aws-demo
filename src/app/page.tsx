@@ -99,20 +99,20 @@ export default function Home() {
 
   return (
     <main className="min-h-screen bg-slate-950 text-slate-100">
-      <div className="mx-auto flex w-full max-w-7xl flex-col gap-6 px-4 py-6 sm:px-6 lg:px-8">
-        <header className="rounded-2xl border border-slate-800 bg-slate-900/70 p-5 backdrop-blur">
-          <p className="text-xs uppercase tracking-[0.22em] text-cyan-300">Cloud Control Room</p>
-          <div className="mt-2 flex flex-wrap items-end justify-between gap-3">
-            <div>
-              <h1 className="text-2xl font-semibold sm:text-3xl">AWS Reference Architecture Playground</h1>
-              <p className="text-sm text-slate-400">Interactive CI/CD, ingress, data-tier, DR, and observability journey mapping.</p>
+      <div className="mx-auto flex w-full max-w-7xl flex-col gap-10 px-5 py-10 sm:px-8 sm:py-14 lg:px-12 lg:py-16">
+        <header className="rounded-3xl border border-slate-800/60 bg-slate-900/35 p-7 backdrop-blur-sm sm:p-10">
+          <p className="text-[11px] uppercase tracking-[0.28em] text-cyan-200/90">Cloud Control Room</p>
+          <div className="mt-4 flex flex-wrap items-end justify-between gap-6">
+            <div className="max-w-2xl space-y-2">
+              <h1 className="text-3xl font-semibold leading-tight tracking-tight text-slate-50 sm:text-4xl lg:text-5xl">AWS Reference Architecture Playground</h1>
+              <p className="text-sm leading-relaxed text-slate-300 sm:text-base">Interactive CI/CD, ingress, data-tier, DR, and observability journey mapping.</p>
             </div>
             <div className="flex flex-wrap gap-2">
               {PRESETS.map((preset) => (
                 <button
                   key={preset.name}
                   onClick={() => applyPreset(preset)}
-                  className="rounded-lg border border-slate-700 bg-slate-800 px-3 py-1.5 text-sm transition hover:border-cyan-400 hover:text-cyan-300"
+                  className="rounded-full border border-slate-700/80 bg-transparent px-3.5 py-1.5 text-sm text-slate-300 transition-all duration-300 hover:border-cyan-400/70 hover:bg-cyan-500/12 hover:text-cyan-100 focus-visible:border-cyan-300 focus-visible:bg-cyan-500/12 focus-visible:text-cyan-100"
                 >
                   {preset.name}
                 </button>
@@ -121,9 +121,9 @@ export default function Home() {
           </div>
         </header>
 
-        <section className="grid gap-6 lg:grid-cols-[330px_1fr]">
-          <aside className="rounded-2xl border border-slate-800 bg-slate-900/70 p-5">
-            <h2 className="mb-4 text-sm font-medium text-slate-300">Controls</h2>
+        <section className="grid gap-8 lg:grid-cols-[340px_1fr]">
+          <aside className="rounded-3xl border border-slate-800/60 bg-slate-900/35 p-6 sm:p-7">
+            <h2 className="mb-6 text-xs font-semibold uppercase tracking-[0.2em] text-slate-300/90">Controls</h2>
 
             <label className="mb-4 block">
               <div className="mb-1 flex justify-between text-sm">
@@ -148,8 +148,10 @@ export default function Home() {
                   <button
                     key={mode}
                     onClick={() => setResilience(mode)}
-                    className={`rounded-lg border px-2 py-2 capitalize transition ${
-                      resilience === mode ? "border-cyan-400 bg-cyan-500/20 text-cyan-200" : "border-slate-700 bg-slate-800 text-slate-300 hover:border-slate-500"
+                    className={`rounded-lg border px-2.5 py-2 capitalize transition-all duration-300 ${
+                      resilience === mode
+                        ? "border-cyan-400/70 bg-cyan-500/12 text-cyan-100"
+                        : "border-slate-700/80 bg-transparent text-slate-300 hover:border-cyan-400/60 hover:bg-cyan-500/10 hover:text-cyan-100"
                     }`}
                   >
                     {mode}
@@ -169,8 +171,10 @@ export default function Home() {
                   <button
                     key={value}
                     onClick={() => setFailure(value)}
-                    className={`rounded-lg border px-2 py-2 transition ${
-                      failure === value ? "border-rose-400 bg-rose-500/20 text-rose-200" : "border-slate-700 bg-slate-800 text-slate-300 hover:border-slate-500"
+                    className={`rounded-lg border px-2.5 py-2 transition-all duration-300 ${
+                      failure === value
+                        ? "border-rose-400/70 bg-rose-500/12 text-rose-100"
+                        : "border-slate-700/80 bg-transparent text-slate-300 hover:border-rose-400/60 hover:bg-rose-500/10 hover:text-rose-100"
                     }`}
                   >
                     {label}
@@ -186,8 +190,10 @@ export default function Home() {
                   <button
                     key={mode}
                     onClick={() => setDrMode(mode)}
-                    className={`rounded-lg border px-2 py-2 uppercase transition ${
-                      drMode === mode ? "border-amber-400 bg-amber-500/20 text-amber-200" : "border-slate-700 bg-slate-800 text-slate-300 hover:border-slate-500"
+                    className={`rounded-lg border px-2.5 py-2 uppercase transition-all duration-300 ${
+                      drMode === mode
+                        ? "border-amber-400/70 bg-amber-500/12 text-amber-100"
+                        : "border-slate-700/80 bg-transparent text-slate-300 hover:border-amber-400/60 hover:bg-amber-500/10 hover:text-amber-100"
                     }`}
                   >
                     {mode}
@@ -200,11 +206,11 @@ export default function Home() {
             </div>
           </aside>
 
-          <div className="space-y-6">
-            <section className="rounded-2xl border border-slate-800 bg-slate-900/70 p-4 sm:p-5">
-              <div className="mb-3 flex items-center justify-between gap-2">
-                <h2 className="text-sm font-medium text-slate-300">Live architecture view</h2>
-                <span className={`rounded-full px-2 py-1 text-xs ${model.failover ? "bg-amber-500/20 text-amber-300" : "bg-emerald-500/20 text-emerald-300"}`}>
+          <div className="space-y-8">
+            <section className="rounded-3xl border border-slate-800/60 bg-slate-900/35 p-5 sm:p-7">
+              <div className="mb-5 flex items-center justify-between gap-2">
+                <h2 className="text-xs font-semibold uppercase tracking-[0.2em] text-slate-300/90">Live architecture view</h2>
+                <span className={`rounded-full border px-2.5 py-1 text-xs ${model.failover ? "border-amber-400/50 bg-amber-500/10 text-amber-200" : "border-emerald-400/50 bg-emerald-500/10 text-emerald-200"}`}>
                   {model.failover ? "Failover active" : "Primary path active"}
                 </span>
               </div>
@@ -256,7 +262,7 @@ function ArchitectureFlow({
   const lineTone = failure !== "none" ? "from-amber-400/70 to-amber-300/20" : "from-cyan-400/70 to-cyan-300/20";
 
   return (
-    <div className="space-y-3 rounded-xl border border-slate-800 bg-slate-950/70 p-3 sm:p-4">
+    <div className="space-y-4 rounded-2xl border border-slate-800/60 bg-slate-950/35 p-4 sm:p-6">
       <div className="flex flex-wrap items-center justify-between gap-2 text-xs text-slate-400">
         <span>Live service graph · {model.requestFlow.toLocaleString()} req/min</span>
         <span>DR mode: <span className="uppercase text-amber-300">{drMode}</span></span>
@@ -321,10 +327,10 @@ function ArchitectureFlow({
 
 function Lane({ title, hint, children }: { title: string; hint: string; children: React.ReactNode }) {
   return (
-    <div className="rounded-lg border border-slate-800 bg-slate-900/70 p-3">
-      <div className="mb-2 flex flex-wrap items-center justify-between gap-2 text-xs">
-        <p className="font-medium text-slate-200">{title}</p>
-        <p className="text-slate-400">{hint}</p>
+    <div className="rounded-xl border border-slate-800/60 bg-slate-900/30 p-4">
+      <div className="mb-3 flex flex-wrap items-center justify-between gap-2 text-xs">
+        <p className="font-medium text-slate-100">{title}</p>
+        <p className="text-slate-400/90">{hint}</p>
       </div>
       {children}
     </div>
@@ -333,7 +339,7 @@ function Lane({ title, hint, children }: { title: string; hint: string; children
 
 function ServiceNode({ icon, label, sub, badge }: { icon?: string; label: string; sub: string; badge?: string }) {
   return (
-    <div className="rounded-lg border border-slate-700 bg-slate-900 p-2 transition-transform duration-300 hover:-translate-y-0.5">
+    <div className="rounded-xl border border-slate-700/70 bg-slate-900/35 p-3 transition-all duration-300 hover:-translate-y-0.5 hover:border-slate-500/80">
       <div className="flex items-center gap-2">
         {icon ? <Icon src={icon} alt={label} /> : <span className="inline-flex h-[22px] min-w-[22px] items-center justify-center rounded bg-slate-700 px-1 text-[10px] text-slate-300">{badge ?? "AWS"}</span>}
         <p className="text-xs font-medium text-slate-200">{label}</p>
@@ -355,11 +361,11 @@ function JourneyCard({
   nodes: { icon?: string; label: string }[];
 }) {
   return (
-    <div className="rounded-lg border border-slate-700 bg-slate-950/50 p-3">
+    <div className="rounded-xl border border-slate-700/70 bg-slate-950/30 p-4">
       <p className="mb-2 text-xs font-medium text-slate-200">{title}</p>
       <div className="grid grid-cols-2 gap-2 sm:grid-cols-4">
         {nodes.map((node) => (
-          <div key={`${title}-${node.label}`} className="rounded-md border border-slate-800 bg-slate-900 p-2 text-[11px] text-slate-300">
+          <div key={`${title}-${node.label}`} className="rounded-lg border border-slate-800/70 bg-slate-900/30 p-2.5 text-[11px] text-slate-300">
             <div className="flex items-center gap-1.5">{node.icon ? <Icon src={node.icon} alt={node.label} /> : <span className="inline-block h-2.5 w-2.5 rounded-full bg-violet-300" />}<span>{node.label}</span></div>
           </div>
         ))}
@@ -389,8 +395,8 @@ function TrafficDot({ delay, duration, left, width, tone = "cyan" }: { delay: nu
 function RegionCard({ name, active, impaired }: { name: string; active: boolean; impaired: boolean }) {
   return (
     <div
-      className={`rounded-xl border p-4 transition-all duration-400 ${
-        active ? "border-cyan-400/70 bg-cyan-500/10" : "border-slate-700 bg-slate-900"
+      className={`rounded-2xl border p-5 transition-all duration-400 ${
+        active ? "border-cyan-400/70 bg-cyan-500/8" : "border-slate-700/70 bg-slate-900/30"
       } ${impaired ? "opacity-40 saturate-0" : "opacity-100"}`}
     >
       <div className="mb-3 flex items-center justify-between">
@@ -412,17 +418,17 @@ function RegionCard({ name, active, impaired }: { name: string; active: boolean;
 
 function MetricCard({ label, value, hint, tone }: { label: string; value: string; hint: string; tone: "cyan" | "violet" | "emerald" | "amber" }) {
   const toneClass = {
-    cyan: "border-cyan-500/30 bg-cyan-500/10 text-cyan-200",
-    violet: "border-violet-500/30 bg-violet-500/10 text-violet-200",
-    emerald: "border-emerald-500/30 bg-emerald-500/10 text-emerald-200",
-    amber: "border-amber-500/30 bg-amber-500/10 text-amber-200",
+    cyan: "border-cyan-500/35 bg-cyan-500/6 text-cyan-100",
+    violet: "border-violet-500/35 bg-violet-500/6 text-violet-100",
+    emerald: "border-emerald-500/35 bg-emerald-500/6 text-emerald-100",
+    amber: "border-amber-500/35 bg-amber-500/6 text-amber-100",
   }[tone];
 
   return (
-    <article className={`rounded-xl border p-4 ${toneClass}`}>
-      <p className="text-xs uppercase tracking-wide opacity-80">{label}</p>
-      <p className="mt-1 text-2xl font-semibold">{value}</p>
-      <p className="text-xs opacity-75">{hint}</p>
+    <article className={`rounded-2xl border p-5 ${toneClass}`}>
+      <p className="text-[11px] uppercase tracking-[0.16em] opacity-80">{label}</p>
+      <p className="mt-2 text-2xl font-semibold tracking-tight">{value}</p>
+      <p className="mt-1 text-xs opacity-75">{hint}</p>
     </article>
   );
 }
