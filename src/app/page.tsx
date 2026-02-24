@@ -1,6 +1,5 @@
 "use client";
 
-import Image from "next/image";
 import { useMemo, useState } from "react";
 
 type ResilienceMode = "cost" | "balanced" | "maximum";
@@ -190,7 +189,8 @@ export default function Home() {
 }
 
 function Icon({ src, alt }: { src: string; alt: string }) {
-  return <Image src={src} alt={alt} width={22} height={22} className="h-[22px] w-[22px]" />;
+  const base = typeof window !== "undefined" && window.location.hostname.includes("github.io") ? "/cloud-control-room-aws-demo" : "";
+  return <img src={`${base}${src}`} alt={alt} width={22} height={22} className="h-[22px] w-[22px]" />;
 }
 
 function ArchitectureFlow({ model }: { model: { ec2Count: number; podCount: number; rdsReaders: number; trafficIntensity: number; requestFlow: number; failover: boolean } }) {
@@ -203,7 +203,7 @@ function ArchitectureFlow({ model }: { model: { ec2Count: number; podCount: numb
         <span>{model.requestFlow.toLocaleString()} req/min</span>
       </div>
 
-      <div className="grid gap-2 sm:grid-cols-5">
+      <div className="grid grid-cols-5 gap-2">
         <ServiceNode icon="/aws-icons/route53.svg" label="Route 53" sub="Ingress" />
         <ServiceNode icon="/aws-icons/elb.svg" label="ALB" sub="Public edge" />
         <ServiceNode icon="/aws-icons/eks.svg" label="EKS" sub={`${model.podCount} pods`} />
@@ -211,7 +211,7 @@ function ArchitectureFlow({ model }: { model: { ec2Count: number; podCount: numb
         <ServiceNode icon="/aws-icons/rds.svg" label="RDS" sub={`1 writer + ${model.rdsReaders} readers`} />
       </div>
 
-      <div className="relative mt-3 hidden h-4 sm:block">
+      <div className="relative mt-3 h-4">
         {[0, 1, 2, 3].map((i) => (
           <div key={i} className={`absolute top-1/2 h-[2px] -translate-y-1/2 bg-gradient-to-r ${lineTone}`} style={{ left: `${i * 25 + 7}%`, width: "11%" }} />
         ))}
